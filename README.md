@@ -1,4 +1,3 @@
 # flaming octo nemesis
 
-for all the testing!
-which has been interesting...
+also known as FON
