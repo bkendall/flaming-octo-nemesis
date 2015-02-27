@@ -1,3 +1,3 @@
 # flaming octo nemesis
 
-Welcome to my Inn! :D
+Welcome to my Inn! o.O
