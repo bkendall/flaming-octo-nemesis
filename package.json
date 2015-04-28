@@ -1,0 +1,24 @@
+{
+  "name": "flaming-octo-nemesis",
+  "version": "0.0.0",
+  "description": "Welcome to my Inn",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bkendall/flaming-octo-nemesis.git"
+  },
+  "author": "Bryan Kendall <bryan@bryankendall.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bkendall/flaming-octo-nemesis/issues"
+  },
+  "homepage": "https://github.com/bkendall/flaming-octo-nemesis",
+  "dependencies": {
+    "express": "^4.10.6"
+  },
+  "devDependencies": {}
+}
