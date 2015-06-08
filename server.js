@@ -13,7 +13,7 @@ http.createServer(
     req._count = -1;
     if (process.env.REDIS_HOSTNAME) {
       redis.incr('thiskey', function (err, count) {
-        if (err) { console.error('redis error inc:', err);
+        if (err) { console.error('redis error inc:', err); }
         req._count = count || req._count;
         writeResponse(req, res);
       });
