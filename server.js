@@ -4,6 +4,9 @@ var user = process.env.FON_USER || 'user';
 
 var Redis = require('redis');
 var redis = Redis.createClient(6379, process.env.REDIS_HOSTNAME);
+redis.on('error', function (err) {
+  console.error('redis error:', err);
+});
 
 http.createServer(
   function (req, res, next) {
