@@ -12,6 +12,7 @@ http.createServer(
   function (req, res) {
     req._count = -1;
     if (process.env.REDIS_HOSTNAME) {
+      incrPath(req.path);
       redis.incr('thiskey', function (err, count) {
         if (err) { console.error('redis error inc:', err); }
         req._count = count || req._count;
@@ -23,6 +24,15 @@ http.createServer(
   }
 ).listen(port);
 console.log('Server running, at http://127.0.0.1:' + port + '/');
+
+function incrPath (path) {
+  redis.hincrby('reqPaths', path, 1, function (err) {
+    if (err) { console.error('redis err hincrby:', err); }
+    redis.hgetall('reqPaths', function (err, data) {
+      console.log(err, data);
+    });
+  });
+}
 
 function writeResponse (req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
