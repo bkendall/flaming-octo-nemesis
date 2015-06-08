@@ -9,20 +9,22 @@ redis.on('error', function (err) {
 });
 
 http.createServer(
-  function (req, res, next) {
+  function (req, res) {
     req._count = -1;
     if (process.env.REDIS_HOSTNAME) {
       redis.incr('thiskey', function (err, count) {
+        if (err) { console.error('redis error inc:', err);
         req._count = count || req._count;
-        next(err);
+        writeResponse(req, res);
       });
     } else {
-      next();
+      writeResponse(req, res);
     }
-  },
-  function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Hello, ' + user + '!\n\nServed on port ' + port + '\n' + 'Count: ' + req._count + '\n');
   }
 ).listen(port);
 console.log('Server running, at http://127.0.0.1:' + port + '/');
+
+function writeResponse (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello, ' + user + '!\n\nServed on port ' + port + '\n' + 'Count: ' + req._count + '\n');
+}
