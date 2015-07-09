@@ -1,6 +1,7 @@
 var http = require('http');
 var port = process.env.PORT || 8080;
 var user = process.env.FON_USER || 'user';
+var async = require('async');
 
 var Redis = require('redis');
 var redis = Redis.createClient(6379, process.env.REDIS_HOSTNAME);
