@@ -9,18 +9,32 @@ redis.on('error', function (err) {
 });
 
 http.createServer(
-  function (req, res) {
+  function (req, res, next) {
     req._count = -1;
-    if (process.env.REDIS_HOSTNAME) {
-      incrPath(req.url);
-      redis.incr('thiskey', function (err, count) {
-        if (err) { console.error('redis error inc:', err); }
-        req._count = count || req._count;
+    req._path_count = -1;
+    async.series([
+      function countThings (cb) {
+        if (process.env.REDIS_HOSTNAME) {
+          incrPath(req.url);
+          redis.incr('thiskey', function (err, count) {
+            req._count = count || req._count;
+            cb(err);
+          });
+        } else {
+          cb();
+        }
+      },
+      function getPathCount (cb) {
+        redis.hget('reqPaths', req.url, function (err, count) {
+          req._path_count = count || req._path_count;
+          cb(err);
+        });
+      },
+      function respond (cb) {
         writeResponse(req, res);
-      });
-    } else {
-      writeResponse(req, res);
-    }
+        cb();
+      }
+    ], function (err) { next(err); });
   }
 ).listen(port);
 console.log('Server running, at http://127.0.0.1:' + port + '/');
@@ -36,5 +50,11 @@ function incrPath (path) {
 
 function writeResponse (req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello, ' + user + '!\n\nServed on port ' + port + '\n' + 'Count: ' + req._count + '\n');
+  res.end([
+    'Hello, ' + user + '!',
+    '',
+    'Served on port ' + port,
+    'All count: ' + req._count,
+    'Path count: ' + req._path_count
+  ].join('\n'));
 }
