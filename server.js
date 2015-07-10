@@ -10,7 +10,7 @@ redis.on('error', function (err) {
 });
 
 http.createServer(
-  function (req, res, next) {
+  function (req, res) {
     req._count = -1;
     req._path_count = -1;
     async.series([
@@ -35,7 +35,7 @@ http.createServer(
         writeResponse(req, res);
         cb();
       }
-    ], function (err) { next(err); });
+    ], function (err) { });
   }
 ).listen(port);
 console.log('Server running, at http://127.0.0.1:' + port + '/');
