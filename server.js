@@ -4,10 +4,13 @@ var user = process.env.FON_USER || 'user';
 var async = require('async');
 
 var Redis = require('redis');
-var redis = Redis.createClient(6379, process.env.REDIS_HOSTNAME);
-redis.on('error', function (err) {
-  console.error('redis error:', err);
-});
+var redis;
+if (process.env.REDIS_HOSTNAME) {
+  Redis.createClient(6379, process.env.REDIS_HOSTNAME);
+  redis.on('error', function (err) {
+    console.error('redis error:', err);
+  });
+}
 
 http.createServer(
   function (req, res) {
@@ -26,10 +29,14 @@ http.createServer(
         }
       },
       function getPathCount (cb) {
-        redis.hget('reqPaths', req.url, function (err, count) {
-          req._path_count = count || req._path_count;
-          cb(err);
-        });
+        if (process.env.REDIS_HOSTNAME) {
+          redis.hget('reqPaths', req.url, function (err, count) {
+            req._path_count = count || req._path_count;
+            cb(err);
+          });
+        } else {
+          cb();
+        }
       },
       function respond (cb) {
         writeResponse(req, res);
