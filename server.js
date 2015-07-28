@@ -6,7 +6,7 @@ var async = require('async');
 var Redis = require('redis');
 var redis;
 if (process.env.REDIS_HOSTNAME) {
-  Redis.createClient(6379, process.env.REDIS_HOSTNAME);
+  redis = Redis.createClient(6379, process.env.REDIS_HOSTNAME);
   redis.on('error', function (err) {
     console.error('redis error:', err);
   });
