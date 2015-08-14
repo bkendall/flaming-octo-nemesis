@@ -45,7 +45,7 @@ http.createServer(
     ], function (err) { });
   }
 ).listen(port);
-console.log('Server running, at http://127.0.0.1:' + port + '/');
+console.log('Server running at http://127.0.0.1:' + port + '/');
 
 function incrPath (path) {
   redis.hincrby('reqPaths', path, 1, function (err) {
