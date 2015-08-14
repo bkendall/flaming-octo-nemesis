@@ -62,6 +62,7 @@ function writeResponse (req, res) {
     'Hello, ' + user + '!',
     '',
     'Served on port ' + port,
+    '',
     'All count: ' + req._count,
     'Path count: ' + req._path_count
   ].join('\n'));
