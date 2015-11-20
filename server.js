@@ -1,7 +1,7 @@
 var async = require('async');
 var http = require('http');
 var port = process.env.PORT || 8080;
-var user = process.env.FON_USER || 'user';
+var user = process.env.FON_USER || 'RunnableBot';
 
 var Redis = require('redis');
 var redis;
