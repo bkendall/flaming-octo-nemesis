@@ -2,3 +2,4 @@
 
 Welcome to my Inn! o.O
 hi
+hi
