@@ -2,6 +2,7 @@ var async = require('async');
 var http = require('http');
 var port = process.env.PORT || 8080;
 var user = process.env.FON_USER || 'RunnableBot';
+var hostname = process.env.HOSTNAME || 'Unknown';
 
 var Redis = require('redis');
 var redis;
@@ -62,8 +63,10 @@ function writeResponse (req, res) {
     'Hello, ' + user + '!',
     '',
     'Served on port ' + port,
+    'By host ' + hostname,
     '',
     'All count: ' + req._count,
-    'Path count: ' + req._path_count
+    'Path count: ' + req._path_count,
+    ''
   ].join('\n'));
 }
